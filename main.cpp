@@ -1,40 +1,33 @@
 #include <iostream>
 #include <cmath>
+#include <string>
 
 bool checkin_point(std::string ipAdr) {
     int point = 0;
     int l = ipAdr.length() - 1;
-    if (ipAdr[0] == 46 || ipAdr[l] == 46) {
+    if (ipAdr[0] == '.' || ipAdr[l] == '.') {
         return false;
     } else {
         for (int i = 1; i < l; ++i) {
-            if (ipAdr[i] == 46 && (ipAdr[i - 1] == 46 || ipAdr[i + 1] == 46)) {
-                return false;
-            } else if (ipAdr[i] == 46) {
-                ++point;
+            if (ipAdr[i] == '.') {
+                if (ipAdr[i - 1] == '.' || ipAdr[i + 1] == '.') {
+                    return false;
+                } else {
+                    ++point;
+                }
             }
         }
     }
-    if (point == 3) {
-        return true;
-    } else {
-        return false;
-    }
+    return (point == 3);
 }
 
 bool checking_part(std::string part) {
     int l = part.length() - 1;
     int dig = 0;
-    if (l > 0 && part[0] == '0' || part.length() > 3) {
+    if ((l > 0 && part[0] == '0') || l >= 3) {
         return false;
     } else {
-        for (int i = 0; i <= l; ++i) {
-            if (part[i] < 48 || part[i] > 57) {
-                return false;
-            } else {
-                dig += (part[i] - '0') * pow(10, (l - i));
-            }
-        }
+        dig = std::stoi(part);
     }
     if (dig < 0 || dig > 255) {
         return false;
@@ -50,7 +43,7 @@ bool checking_ip(std::string ipAdr) {
         return false;
     } else {
         for (int i = 0; i <= l; ++i) {
-            if (ipAdr[i] != 46) {
+            if (ipAdr[i] != '.') {
                 part += ipAdr[i];
             } else {
                 if (!checking_part(part)) {
