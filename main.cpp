@@ -27,6 +27,11 @@ bool checking_part(std::string part) {
     if ((l > 0 && part[0] == '0') || l >= 3) {
         return false;
     } else {
+        for (int i = 0; i <= l; ++i) {
+            if (part[i] < '0' || part[i] > '9') {
+                return false;
+            }
+        }
         dig = std::stoi(part);
     }
     if (dig < 0 || dig > 255) {
